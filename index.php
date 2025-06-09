@@ -13,6 +13,9 @@
                     email VARCHAR(50) NOT NULL,
                     senha VARCHAR(32) NOT NULL,  
         ";
+
+        $conexao->exec($query);
+
     }catch(PDOException $e){
         echo "Error [{$e->getCode()}] -> {$e->getMessage()}";
     }
