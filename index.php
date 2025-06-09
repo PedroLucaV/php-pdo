@@ -6,6 +6,13 @@
 
     try{
         $conexao = new PDO($dsn, $user, $password);
+
+        $query = "CREATE TABLE tb_uuarios
+                    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+                    nome VARCHAR(50) NOT NULL,
+                    email VARCHAR(50) NOT NULL,
+                    senha VARCHAR(32) NOT NULL,  
+        ";
     }catch(PDOException $e){
         echo "Error [{$e->getCode()}] -> {$e->getMessage()}";
     }
