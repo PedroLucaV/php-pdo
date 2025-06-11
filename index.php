@@ -16,6 +16,10 @@
 
         $conexao->exec($query);
 
+        $query = 'INSERT INTO tb_usuarios(nome, email, senha) VALUES ("Pedro Lucas", "pedro@teste.com", "123456")';
+
+        $conexao->exec($query);
+
     }catch(PDOException $e){
         echo "Error [{$e->getCode()}] -> {$e->getMessage()}";
     }
