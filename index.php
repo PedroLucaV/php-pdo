@@ -18,7 +18,23 @@
 
         $query = 'INSERT INTO tb_usuarios(nome, email, senha) VALUES ("Pedro Lucas", "pedro@teste.com", "123456")';
 
-        $conexao->exec($query);
+        //$conexao->exec($query);
+
+        $query = 'SELECT * FROM tb_usuarios';
+
+        $stmt = $conexao->query($query);
+        $lista = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        // echo "<pre>";
+        // print_r($lista);
+        // echo "</pre>";
+
+        //foreach ($lista as $user) {
+        //    print_r($user);
+        //    echo ' - ';
+        //    echo $user->nome;
+        //    echo "<br>";
+        //}
 
     }catch(PDOException $e){
         echo "Error [{$e->getCode()}] -> {$e->getMessage()}";
