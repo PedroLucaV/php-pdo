@@ -1,4 +1,5 @@
 <?php
+    if(!empty($_POST['usuario']) && !empty($_POST['senha']))
 
     $dsn = 'mysql:host=localhost;dbname=php_com_pdo';
     $user = 'root';
@@ -7,35 +8,45 @@
     try{
         $conexao = new PDO($dsn, $user, $password);
 
-        $query = "CREATE TABLE IF NOT EXISTS tb_usuarios(
-                    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-                    nome VARCHAR(50) NOT NULL,
-                    email VARCHAR(50) NOT NULL,
-                    senha VARCHAR(32) NOT NULL
-        );";
+        $query = "SELECT * FROM tb_usuarios where email = :usuario AND senha = :senha";
 
-        $conexao->exec($query);
+        $stmt = $conexao->prepare($query);
 
-        $query = 'INSERT INTO tb_usuarios(nome, email, senha) VALUES ("Pedro Lucas", "pedro@teste.com", "123456")';
+        $stmt->bindValue(':usuario', $_POST['usuario']);
+        $stmt->bindValue(':senha', $_POST['senha']);
 
-        //$conexao->exec($query);
+        $stmt->execute();
 
-        $query = 'SELECT * FROM tb_usuarios';
+        $usuario = $stmt->fetch();
 
-        $stmt = $conexao->query($query);
-        $lista = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-        // echo "<pre>";
-        // print_r($lista);
-        // echo "</pre>";
-
-        //foreach ($lista as $user) {
-        //    print_r($user);
-        //    echo ' - ';
-        //    echo $user->nome;
-        //    echo "<br>";
-        //}
-
+        echo '<pre>';
+        print_r($usuario);
+        echo '</pre>';
     }catch(PDOException $e){
         echo "Error [{$e->getCode()}] -> {$e->getMessage()}";
     }
+?>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+    </head>
+
+    <body>
+        <form method="post" action="index.php">
+            <input type="text" name="usuario">
+            <br>
+            <input type="password" name="senha">
+            <br>
+            <button type="submit">Entrar</button>
+        </form>
+
+        <?php if(!empty($usuario)){ ?>
+
+        <h1>Olá <?php echo $usuario['nome']?></h1>
+
+        <?php }?>
+    </body>
+</html>
+
